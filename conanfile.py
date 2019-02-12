@@ -393,7 +393,7 @@ class QtConan(ConanFile):
                 return {"x86": "linux-g++-32",
                         "armv6": "linux-arm-gnueabi-g++",
                         "armv7": "linux-arm-gnueabi-g++",
-                        "armv7hf": "linux-arm-gnueabi-g++",
+                        "armv7hf": "linux-arm-gnueabihf-g++",
                         "armv8": "linux-aarch64-gnu-g++"}.get(str(self.settings.arch), "linux-g++")
             elif self.settings.compiler == "clang":
                 if self.settings.arch == "x86":
@@ -645,7 +645,7 @@ class QtConan(ConanFile):
             if tools.os_info.is_macos:
                open(self.build_folder + "/.qmake.stash" , 'w').close()
                open(self.build_folder + "/.qmake.super" , 'w').close()
-                
+
             with tools.environment_append(build_env):
                 cmake = self._configure_cmake()
                 
