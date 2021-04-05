@@ -23,6 +23,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
+      - name: Install Conan
+        id: conan
+        uses: turtlebrowser/get-conan@main
+
       - name: Add conan jfrog remote
         run: conan remote add jfrog https://turtlebrowser.jfrog.io/artifactory/api/conan/conan
 
