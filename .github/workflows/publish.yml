@@ -7,8 +7,6 @@ on:
   # Triggers the workflow on push or pull request events but only for the turtlebrowser/5.15.2 branch
   push:
     branches: [ turtlebrowser/5.15.2 ]
-  pull_request:
-    branches: [ turtlebrowser/5.15.2 ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
