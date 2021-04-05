@@ -1,8 +1,6 @@
 ## Package Status
 
-| Bintray | Windows | Linux & macOS |
-|:--------:|:---------:|:-----------------:|
-|[![Download](https://api.bintray.com/packages/bincrafters/public-conan/qt%3Abincrafters/images/download.svg) ](https://bintray.com/bincrafters/public-conan/qt%3Abincrafters/_latestVersion)|[![Build status](https://ci.appveyor.com/api/projects/status/github/bincrafters/conan-qt?svg=true)](https://ci.appveyor.com/project/bincrafters/conan-qt)|[![Build Status](https://travis-ci.com/bincrafters/conan-qt.svg)](https://travis-ci.com/bincrafters/conan-qt)|
+[![Publish Qt recipe to JFrog](https://github.com/turtlebrowser/conan-qt/actions/workflows/publish.yml/badge.svg)](https://github.com/turtlebrowser/conan-qt/actions/workflows/publish.yml)
 
 [Changelog](CHANGELOG.md)
 
