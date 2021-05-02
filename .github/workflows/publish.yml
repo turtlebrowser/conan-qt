@@ -1,6 +1,10 @@
 name: Publish Qt recipe to JFrog
 
 on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '30 23 * * 2'
+
   push:
     branches: [ turtlebrowser/5.15.2 ]
 
