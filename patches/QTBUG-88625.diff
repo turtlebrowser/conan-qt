@@ -1,17 +1,10 @@
-From 138a7203f16cf356e9d4dac697920a22437014b0 Mon Sep 17 00:00:00 2001
-From: Peter Varga <pvarga@inf.u-szeged.hu>
-Date: Fri, 13 Nov 2020 11:09:23 +0100
-Subject: [PATCH] Fix build with msvc2019 16.8.0
+Fix compile errors in QtWebEngine when building with VS2019 >= 16.8.0 .
+See https://bugreports.qt.io/browse/QTBUG-88625 and 
+https://codereview.qt-project.org/c/qt/qtwebengine-chromium/+/321741 .
 
-Fixes: QTBUG-88708
-Change-Id: I3554ceec0437801b4861f68edd504d01fc01cf93
-Reviewed-by: Allan Sandfeld Jensen <allan.jensen@qt.io>
----
-
-diff --git a/chromium/third_party/angle/src/common/mathutil.cpp b/chromium/third_party/angle/src/common/mathutil.cpp
-index 306cde1..d4f1034 100644
---- a/chromium/third_party/angle/src/common/mathutil.cpp
-+++ b/chromium/third_party/angle/src/common/mathutil.cpp
+diff -u -r a/src/3rdparty/chromium/third_party/angle/src/common/mathutil.cpp b/src/3rdparty/chromium/third_party/angle/src/common/mathutil.cpp
+--- a/src/3rdparty/chromium/third_party/angle/src/common/mathutil.cpp	2021-05-20 13:38:32.243947800 +0200
++++ b/src/3rdparty/chromium/third_party/angle/src/common/mathutil.cpp	2021-05-20 12:25:30.392900700 +0200
 @@ -72,11 +72,11 @@
      const RGB9E5Data *inputData = reinterpret_cast<const RGB9E5Data *>(&input);
  
@@ -27,10 +20,9 @@ index 306cde1..d4f1034 100644
  }
  
  }  // namespace gl
-diff --git a/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h b/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
-index 78c316e..136c796 100644
---- a/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
-+++ b/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
+diff -u -r a/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h b/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h
+--- a/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h	2020-11-07 02:22:36.000000000 +0100
++++ b/src/3rdparty/chromium/third_party/blink/renderer/platform/graphics/lab_color_space.h	2021-05-20 13:39:42.890109500 +0200
 @@ -130,7 +130,7 @@
    // https://en.wikipedia.org/wiki/CIELAB_color_space#Forward_transformation.
    FloatPoint3D toXYZ(const FloatPoint3D& lab) const {
@@ -40,15 +32,15 @@ index 78c316e..136c796 100644
      };
  
      FloatPoint3D v = {clamp(lab.X(), 0.0f, 100.0f),
-diff --git a/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h b/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
-index 02363d0..8860287 100644
---- a/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
-+++ b/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
-@@ -198,6 +198,20 @@
+diff -u -r a/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h b/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h
+--- a/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h	2020-11-07 02:22:36.000000000 +0100
++++ b/src/3rdparty/chromium/third_party/perfetto/src/trace_processor/timestamped_trace_piece.h	2021-05-20 13:41:08.983902900 +0200
+@@ -197,6 +197,20 @@
+     }
      return *this;
    }
- 
-+#if PERFETTO_BUILDFLAG(PERFETTO_COMPILER_MSVC)
++  
++  #if PERFETTO_BUILDFLAG(PERFETTO_COMPILER_MSVC)
 +  TimestampedTracePiece& operator=(TimestampedTracePiece&& ttp) const
 +  {
 +    if (this != &ttp) {
@@ -61,7 +53,6 @@ index 02363d0..8860287 100644
 +    return const_cast<TimestampedTracePiece&>(*this);
 +  }
 +#endif  // PERFETTO_BUILDFLAG(PERFETTO_COMPILER_MSVC)
-+
+ 
    ~TimestampedTracePiece() {
      switch (type) {
-       case Type::kInvalid:
